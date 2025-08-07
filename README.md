@@ -61,8 +61,8 @@ CREATE TABLE waitlist (
 Set up backend dependencies:
 Navigate to the backend directory and install its packages.
 
-```sh
 Bash
+```sh
 cd backend
 npm install
 Configure Environment Variables:
@@ -84,17 +84,22 @@ DB_PORT=5432
 ```
 Run the backend server:
 This will start your API server, typically on http://localhost:5000.
-```sh
-Bash
 
+Bash
+```sh
 node server.js
 ```
 ## Running the Full Application
 To run the full application, you must have both servers running at the same time in two separate terminals:
-```sh
-Terminal 1 (Project Root): npm run dev
 
-Terminal 2 (Backend Folder): node server.js
+Terminal 1 (Project Root):
+```sh
+ npm run dev
+```
+
+Terminal 2 (Backend Folder): 
+```sh
+ node server.js
 ```
 
 **Edit a file directly in GitHub**
