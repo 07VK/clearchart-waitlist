@@ -1,7 +1,8 @@
+// src/components/WaitlistForm.tsx
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Card } from "@/components/ui/card";
 
 const WaitlistForm = () => {
@@ -11,11 +12,50 @@ const WaitlistForm = () => {
     phone: ""
   });
 
-  const [listPosition] = useState(1245);
+  // NEW: State for loading and feedback messages
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("We respect your privacy. Unsubscribe anytime.");
+  const [messageIsError, setMessageIsError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // MODIFIED: Replaced the original handleSubmit with this async function
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setIsLoading(true);
+    setMessageIsError(false);
+    setMessage(""); // Clear previous message
+
+    try {
+      const response = await fetch('http://localhost:5000/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Match the backend's expected keys (phoneNumber)
+        body: JSON.stringify({ 
+          name: formData.name, 
+          email: formData.email, 
+          phoneNumber: formData.phone 
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Use the specific error message from your backend
+        throw new Error(data.error || 'An unexpected error occurred.');
+      }
+
+      // Handle success
+      setMessage(`Success! You're #${data.id.toLocaleString()} on the list.`);
+      setFormData({ name: "", email: "", phone: "" }); // Clear the form
+
+    } catch (error: any) {
+      // Handle errors and display them to the user
+      setMessage(error.message);
+      setMessageIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -27,6 +67,7 @@ const WaitlistForm = () => {
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="h-12 border-border bg-surface"
+          required
         />
         
         <Input
@@ -35,6 +76,7 @@ const WaitlistForm = () => {
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="h-12 border-border bg-surface"
+          required
         />
         
         <Input
@@ -43,22 +85,24 @@ const WaitlistForm = () => {
           value={formData.phone}
           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
           className="h-12 border-border bg-surface"
+          required
         />
         
+        {/* MODIFIED: Button now shows loading state */}
         <Button 
           type="submit" 
           className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium text-base"
+          disabled={isLoading}
         >
-          Join the Waitlist
+          {isLoading ? 'Joining...' : 'Join the Waitlist'}
         </Button>
         
-        <p className="text-sm text-medical-gray text-center">
-          We respect your privacy. Unsubscribe anytime.
-        </p>
-        
-        <p className="text-sm text-foreground font-medium">
-          You're #{listPosition.toLocaleString()} on the list
-        </p>
+        {/* MODIFIED: Message area is now dynamic for feedback */}
+        {message && (
+          <p className={`text-sm text-center ${messageIsError ? 'text-red-500' : 'text-medical-gray'}`}>
+            {message}
+          </p>
+        )}
       </form>
     </Card>
   );
