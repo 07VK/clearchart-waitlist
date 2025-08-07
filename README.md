@@ -47,7 +47,7 @@ Start the psql interactive terminal.
 Create the database and the required table.
 
 SQL
-
+```sh
 CREATE DATABASE clear_chart_waitlist;
 \c clear_chart_waitlist
 CREATE TABLE waitlist (
@@ -57,14 +57,16 @@ CREATE TABLE waitlist (
     phone_number VARCHAR(20) UNIQUE NOT NULL,
     submission_date TIMESTAMPTZ DEFAULT NOW()
 );
+```
 Set up backend dependencies:
 Navigate to the backend directory and install its packages.
 
+```sh
 Bash
-
 cd backend
 npm install
 Configure Environment Variables:
+```
 
 Create a .env file inside the backend folder.
 
@@ -73,24 +75,27 @@ Add your database credentials to this file. This file should not be committed to
 Code snippet
 
 # backend/.env
+```sh
 DB_USER=your_postgres_username
 DB_HOST=localhost
 DB_DATABASE=clear_chart_waitlist
 DB_PASSWORD=your_secure_password
 DB_PORT=5432
+```
 Run the backend server:
 This will start your API server, typically on http://localhost:5000.
-
+```sh
 Bash
 
 node server.js
+```
 ## Running the Full Application
 To run the full application, you must have both servers running at the same time in two separate terminals:
-
+```sh
 Terminal 1 (Project Root): npm run dev
 
 Terminal 2 (Backend Folder): node server.js
-
+```
 
 **Edit a file directly in GitHub**
 
