@@ -1,27 +1,32 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import React from "react";
+import AboutSection from "./components/AboutSection";
+import HeroWaitlist from "./components/HeroWaitlist";
+import logo from "./assets/clearchartai-logo.png"
+export default function App() {
+  return (
+    <div className="bg-hero min-h-screen">
+      <header className="mx-auto flex max-w-6xl items-center gap-0 px-6 pt-6">
+        <img src={logo} alt="ClearChartAI" className="h-16 w-auto" />
+          <span
+          className="text-2xl font-semibold"
+          style={{ color: '#4EC7C2' }} // light teal from your logo
+            >
+           ClearChart AI
+          </span>
+        {/* <p className="text-lg md:text-xl text-slate-500 font-medium tracking-tight">
+          Understand Your Health. Own Your Future
+        </p> */}
+      </header>
 
-const queryClient = new QueryClient();
+      {/* About first */}
+      <AboutSection />
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      {/* Then the hero that matches your screenshot */}
+      <HeroWaitlist />
 
-export default App;
+      <footer className="mx-auto max-w-6xl px-6 py-10 text-xs text-slate-400">
+        © {new Date().getFullYear()} ClearChartAI
+      </footer>
+    </div>
+  );
+}
