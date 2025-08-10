@@ -3,7 +3,7 @@ import React from "react";
 const AboutSection: React.FC = () => {
   return (
     <section
-      id="about"
+      id="about"   
       className="mx-auto max-w-6xl px-6 pt-8 md:pt-10"
     >
       {/* Heading matches "Join the Waitlist" */}
