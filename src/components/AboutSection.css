@@ -1,0 +1,24 @@
+/* AboutSection.css */
+.animated-border {
+  /* Set the initial border color */
+  border-color: #e2e8f0; /* This is a slate-200 color from Tailwind */
+  
+  /* Apply the custom animation */
+  animation: pulse-border 2.5s infinite;
+}
+
+@keyframes pulse-border {
+  0% {
+    /* At the start of the animation, the border is the default slate color */
+    border-color: #e2e8f0;
+  }
+  50% {
+    /* Halfway through, the border "pulses" to the new color */
+    border-color: #4EC7C2;
+    box-shadow: 0 0 5px #4EC7C2; /* Optional: Add a subtle glow */
+  }
+  100% {
+    /* At the end, it returns to the original color */
+    border-color: #e2e8f0;
+  }
+}

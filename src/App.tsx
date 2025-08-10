@@ -11,7 +11,7 @@ export default function App() {
           className="text-2xl font-semibold"
           style={{ color: '#4EC7C2' }} // light teal from your logo
             >
-           ClearChart AI
+           ClearChartAI
           </span>
         {/* <p className="text-lg md:text-xl text-slate-500 font-medium tracking-tight">
           Understand Your Health. Own Your Future
@@ -24,8 +24,8 @@ export default function App() {
       {/* Then the hero that matches your screenshot */}
       <HeroWaitlist />
 
-      <footer className="mx-auto max-w-6xl px-6 py-10 text-xs text-slate-400">
-        © {new Date().getFullYear()} ClearChartAI
+      <footer className="mx-auto max-w-6xl px-6 py-10 text-xs text-slate-400 justify-center text-center">
+        © {new Date().getFullYear()} ClearChartAI. Inc.,
       </footer>
     </div>
   );
