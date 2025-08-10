@@ -11,17 +11,54 @@ type FormState = {
 const HeroWaitlist: React.FC = () => {
   const [form, setForm] = useState<FormState>({ name: "", email: "", phone: "" });
   const [submitted, setSubmitted] = useState(false);
+  // NEW: State for loading and error messages
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const onChange =
     (key: keyof FormState) =>
     (e: React.ChangeEvent<HTMLInputElement>) =>
       setForm((s) => ({ ...s, [key]: e.target.value }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  // MODIFIED: This function now handles the API call
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsLoading(true);
+    setError(null); // Clear previous errors
+
+    try {
+      const response = await fetch('http://localhost:5000/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Map frontend state 'phone' to backend's 'phoneNumber'
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phoneNumber: form.phone
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Use the error message from the backend
+        throw new Error(data.error || "An unknown error occurred.");
+      }
+
+      // On success, trigger the success UI
+      setSubmitted(true);
+
+    } catch (err: any) {
+      // On failure, set the error message to display it
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+  // This success UI remains the same
   if (submitted) {
     return <PulsatingHeart />;
   }
@@ -52,6 +89,7 @@ const HeroWaitlist: React.FC = () => {
               type="text"
               placeholder="Your name"
               className="w-full rounded-xl border border-slate-200 px-4 py-3 text-[15px] outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+              required // NEW: Added required attribute for validation
             />
             <input
               value={form.email}
@@ -59,6 +97,7 @@ const HeroWaitlist: React.FC = () => {
               type="email"
               placeholder="you@example.com"
               className="w-full rounded-xl border border-slate-200 px-4 py-3 text-[15px] outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+              required // NEW: Added required attribute
             />
             <input
               value={form.phone}
@@ -66,12 +105,21 @@ const HeroWaitlist: React.FC = () => {
               type="tel"
               placeholder="Phone number"
               className="w-full rounded-xl border border-slate-200 px-4 py-3 text-[15px] outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
+              required // NEW: Added required attribute
             />
+            
+            {/* NEW: Error message display */}
+            {error && (
+              <p className="text-center text-sm text-red-600">{error}</p>
+            )}
+
             <button
               type="submit"
-              className="mt-2 w-full rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-3 text-white font-semibold shadow-md hover:opacity-95 active:opacity-90"
+              disabled={isLoading} // MODIFIED: Disable button when loading
+              className="mt-2 w-full rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-3 text-white font-semibold shadow-md hover:opacity-95 active:opacity-90 disabled:opacity-50"
             >
-              Join the Waitlist
+              {/* MODIFIED: Show loading text */}
+              {isLoading ? "Joining..." : "Join the Waitlist"}
             </button>
             <p className="text-center text-xs text-slate-500">
               We respect your privacy. Unsubscribe anytime.
@@ -83,7 +131,7 @@ const HeroWaitlist: React.FC = () => {
       {/* Right: iPad image */}
       <div className="relative flex justify-center md:justify-end translate-x-6 md:translate-x-12">
         <img
-          src={ipad} // Ensure ipad.png is in public/
+          src={ipad}
           alt="Dashboard preview on iPad"
           className="w-[540px] max-w-full drop-shadow-2xl"
           loading="eager"

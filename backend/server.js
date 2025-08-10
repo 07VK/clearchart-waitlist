@@ -43,7 +43,7 @@ app.post('/api/waitlist', async (req, res) => {
       if (err.constraint === 'waitlist_email_key') {
         return res.status(409).json({ error: 'This email is already on the waitlist.' });
       }
-      if (err.constraint === 'unique_phone_number"') { // Assuming the constraint is named this
+      if (err.constraint === 'unique_phone_number') { // Assuming the constraint is named this
         return res.status(409).json({ error: 'This phone number is already on the waitlist.' });
       }
     }
