@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # credentials
-backend/.env
+.env.local

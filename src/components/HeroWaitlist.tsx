@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PulsatingHeart from "./PulsatingHeart";
-import ipad from "../assets/ipad.png"
+import ipad from "../assets/ipad.png";
+import { supabase } from "../utils/supabase"; // NEW: Import Supabase client
 
 type FormState = {
   name: string;
@@ -11,7 +12,6 @@ type FormState = {
 const HeroWaitlist: React.FC = () => {
   const [form, setForm] = useState<FormState>({ name: "", email: "", phone: "" });
   const [submitted, setSubmitted] = useState(false);
-  // NEW: State for loading and error messages
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,52 +20,38 @@ const HeroWaitlist: React.FC = () => {
     (e: React.ChangeEvent<HTMLInputElement>) =>
       setForm((s) => ({ ...s, [key]: e.target.value }));
 
-  // MODIFIED: This function now handles the API call
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
-      const response = await fetch('https://clearchart-backend.onrender.com/api/waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Map frontend state 'phone' to backend's 'phoneNumber'
-        body: JSON.stringify({
+      const { error: supabaseError } = await supabase
+        .from('waitlist-table')
+        .insert({
           name: form.name,
           email: form.email,
-          phoneNumber: form.phone
-        }),
-      });
+          phone_number: form.phone
+        });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        // Use the error message from the backend
-        throw new Error(data.error || "An unknown error occurred.");
+      if (supabaseError) {
+        throw new Error(supabaseError.message || "An unknown error occurred.");
       }
 
-      // On success, trigger the success UI
       setSubmitted(true);
-
     } catch (err: any) {
-      // On failure, set the error message to display it
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // This success UI remains the same
   if (submitted) {
     return <PulsatingHeart />;
   }
 
   return (
     <main className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 items-center gap-12 px-6 py-8 lg:py-14">
-      {/* Left: headline + form */}
       <div className="max-w-xl">
         <h6 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
           Join the
@@ -89,7 +75,7 @@ const HeroWaitlist: React.FC = () => {
               type="text"
               placeholder="Your name"
               className="w-full rounded-xl border border-slate-200 px-4 py-3 text-[15px] outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-              required // NEW: Added required attribute for validation
+              required
             />
             <input
               value={form.email}
@@ -97,7 +83,7 @@ const HeroWaitlist: React.FC = () => {
               type="email"
               placeholder="you@example.com"
               className="w-full rounded-xl border border-slate-200 px-4 py-3 text-[15px] outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-              required // NEW: Added required attribute
+              required
             />
             <input
               value={form.phone}
@@ -105,20 +91,18 @@ const HeroWaitlist: React.FC = () => {
               type="tel"
               placeholder="Phone number"
               className="w-full rounded-xl border border-slate-200 px-4 py-3 text-[15px] outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
-              required // NEW: Added required attribute
+              required
             />
             
-            {/* NEW: Error message display */}
             {error && (
               <p className="text-center text-sm text-red-600">{error}</p>
             )}
 
             <button
               type="submit"
-              disabled={isLoading} // MODIFIED: Disable button when loading
+              disabled={isLoading}
               className="mt-2 w-full rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-3 text-white font-semibold shadow-md hover:opacity-95 active:opacity-90 disabled:opacity-50"
             >
-              {/* MODIFIED: Show loading text */}
               {isLoading ? "Joining..." : "Join the Waitlist"}
             </button>
             <p className="text-center text-xs text-slate-500">
@@ -128,7 +112,6 @@ const HeroWaitlist: React.FC = () => {
         </form>
       </div>
 
-      {/* Right: iPad image */}
       <div className="relative flex justify-center md:justify-end translate-x-6 md:translate-x-12">
         <img
           src={ipad}
