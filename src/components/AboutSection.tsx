@@ -7,9 +7,9 @@ const AboutSection: React.FC = () => {
       id="about" 
       className="mx-auto max-w-6xl px-6 pt-8 md:pt-10"
     >
-      <h1 className="text-[56px]/[1.05] sm:text-[64px]/[1.05] font-extrabold text-slate-900 tracking-tight">
+      <h6 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
         About ClearChartAI
-      </h1>
+      </h6>
 
       <p className="mt-6 text-lg text-slate-600 max-w-8xl">
       Healthcare buries you under portals, PDFs, and jargon, then calls it “access.” ClearChartAI rips off the veil and hands the controls back to you. We hunt down your records from every hospital, lab, and clinic to bring them into one place. No medical degree needed, ClearChartAI will stitch your records together and translate them into plain English. Our expert trained AI will answer questions about your specific health, help you understand your records, diagnosis, and medications. We will let you know what to ask next, so your limited time with the doctor counts. No mystery, no confusion, just your health data working for you with real security and real clarity.
