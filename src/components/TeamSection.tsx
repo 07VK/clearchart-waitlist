@@ -11,7 +11,7 @@ const TeamSection: React.FC = () => {
         {
             name: 'Nicholas Davis',
             title: 'Founder & CEO, AGACNP, BSN',
-            bio: 'Over 8 years in the medical field as a nurse, driving the company’s mission with a deep understanding of patient care.',
+            bio: 'Over 8 years in the medical field as a doctor, driving the company’s mission with a deep understanding of patient care.',
             image: nicholasDavis
         },
         {
@@ -30,9 +30,10 @@ const TeamSection: React.FC = () => {
 
     return (
         <section id="team" className="mx-auto max-w-6xl px-6 pt-16 md:pt-20">
-            <h2 className="text-[56px]/[1.05] sm:text-[64px]/[1.05] font-extrabold text-slate-900 tracking-tight">
-                The Team
-            </h2>
+            <h6 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+            The Team
+            </h6>
+
 
             <p className="mt-6 text-lg text-slate-600 max-w-6xl">
                 Meet the passionate individuals behind ClearChartAI, dedicated to bringing clarity and control to your healthcare journey.

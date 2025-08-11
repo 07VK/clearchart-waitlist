@@ -67,11 +67,11 @@ const HeroWaitlist: React.FC = () => {
     <main className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-2 items-center gap-12 px-6 py-8 lg:py-14">
       {/* Left: headline + form */}
       <div className="max-w-xl">
-        <h1 className="text-[56px]/[1.05] sm:text-[64px]/[1.05] font-extrabold text-slate-900 tracking-tight">
+        <h6 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
           Join the
           <span className="block">ClearChartAI</span>
           Waitlist
-        </h1>
+        </h6>
 
         <p className="mt-6 text-lg text-slate-600">
           Be among the first to get your complete,
