@@ -11,7 +11,7 @@ const TeamSection: React.FC = () => {
         {
             name: 'Nicholas Davis',
             title: 'Founder & CEO, AGACNP, BSN',
-            bio: 'Over 8 years in the medical field as a doctor, driving the company’s mission with a deep understanding of patient care.',
+            bio: 'Over 8 years in the medical field, driving the company’s mission with a deep understanding of patient care.',
             image: nicholasDavis
         },
         {
