@@ -27,7 +27,7 @@ const HeroWaitlist: React.FC = () => {
     setError(null); // Clear previous errors
 
     try {
-      const response = await fetch('http://localhost:5000/api/waitlist', {
+      const response = await fetch('https://clearchart-backend.onrender.com/api/waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

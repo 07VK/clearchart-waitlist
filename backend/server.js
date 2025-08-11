@@ -11,12 +11,12 @@ app.use(cors()); // Allows your frontend to make requests to this backend
 app.use(express.json()); // Allows the server to accept JSON data
 
 // -- Database Connection Pool --
+// -- Database Connection Pool --
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // -- API Endpoints --
@@ -48,7 +48,7 @@ app.post('/api/waitlist', async (req, res) => {
       }
     }
     
-    res.status(500).send('Server error');
+    res.status(500).json({ error: 'An unexpected server error occurred.' });
   }
 });
 
