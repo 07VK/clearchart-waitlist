@@ -1,0 +1,153 @@
+/* Team grid and container for 3D perspective */
+.team-grid {
+    perspective: 1200px;
+}
+
+.team-card-container {
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+/* Base styles for the card */
+.team-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+/* NEW: Blinking border animation */
+.team-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 22px;
+    padding: 2px;
+    /* Updated gradient for a slightly higher contrast, less "soft" glow */
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), #4EC7C2, rgba(255, 255, 255, 0.1));
+    background-size: 400% 400%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.team-card-container:hover .team-card::before {
+    opacity: 0.7;
+    animation: border-blink 4s linear infinite;
+}
+
+@keyframes border-blink {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* New hover animation: subtle lift */
+.team-card-container:hover .team-card {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Image container and styling */
+.card-image-content {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Info content container */
+.card-info {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s ease;
+}
+
+/* Front content (name and title) */
+.card-front-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+    padding: 0 1rem;
+}
+
+.card-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.card-title {
+    font-size: 1rem;
+    color: #475569;
+    font-weight: 400;
+}
+
+/* Back content (professional bio) */
+.card-back-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.card-bio {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #475569; 
+    text-align: center;
+    /* NEW: Made bio text a little bolder for readability */
+    font-weight: 500;
+}
+
+/* Hide front and show back content on hover */
+.team-card-container:hover .card-front-content {
+    opacity: 0;
+}
+
+.team-card-container:hover .card-back-content {
+    opacity: 1;
+}

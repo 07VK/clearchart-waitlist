@@ -1,7 +1,9 @@
 import React from "react";
 import AboutSection from "./components/AboutSection";
 import HeroWaitlist from "./components/HeroWaitlist";
+import TeamSection from "./components/TeamSection"; // NEW: Import the team section
 import logo from "./assets/clearchartai-logo.png"
+
 export default function App() {
   return (
     <div className="bg-hero min-h-screen">
@@ -11,15 +13,15 @@ export default function App() {
           className="text-2xl font-semibold"
           style={{ color: '#4EC7C2' }} // light teal from your logo
             >
-           ClearChartAI
+            ClearChartAI
           </span>
-        {/* <p className="text-lg md:text-xl text-slate-500 font-medium tracking-tight">
-          Understand Your Health. Own Your Future
-        </p> */}
       </header>
 
       {/* About first */}
       <AboutSection />
+
+      {/* Team Section */}
+      <TeamSection /> 
 
       {/* Then the hero that matches your screenshot */}
       <HeroWaitlist />
