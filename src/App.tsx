@@ -8,9 +8,9 @@ export default function App() {
   return (
     <div className="bg-hero min-h-screen">
       <header className="mx-auto flex max-w-6xl items-center gap-0 px-6 pt-6">
-        <img src={logo} alt="ClearChartAI" className="h-16 w-auto" />
+        <img src={logo} alt="ClearChartAI" className="h-20 w-auto" />
           <span
-          className="text-2xl font-semibold mt-5"
+          className="text-2xl font-semibold mt-6"
           style={{ color: '#4EC7C2' }} // light teal from your logo
             >
             ClearChartAI
